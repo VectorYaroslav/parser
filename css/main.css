@@ -1,0 +1,32 @@
+#start, #main_url{
+    padding: 30px 0;
+    text-align: center;
+    font-size: 36px;
+}
+#main_url{
+    padding: 30px 0;
+    text-align: center;
+    font-size: 36px;
+}
+#start{
+    display: none;
+    background-color: green;
+    cursor:pointer;
+    color: white;
+}
+#start:hover{
+    background-color: rgb(0, 59, 0);
+}
+    #select_pictures .name{
+        padding: 10px 0;
+        text-align: center;
+        font-size: 36px;
+        cursor: pointer;
+    }
+    #select_pictures .name.selected{
+        background-color: green;
+        color: white;
+    }
+    #select_pictures img{
+        margin: 70px 0 0 0;
+    }
