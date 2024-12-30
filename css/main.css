@@ -17,16 +17,37 @@
 #start:hover{
     background-color: rgb(0, 59, 0);
 }
-    #select_pictures .name{
+    #select_items .name{
         padding: 10px 0;
         text-align: center;
         font-size: 36px;
         cursor: pointer;
     }
-    #select_pictures .name.selected{
+    #select_items .name.selected{
         background-color: green;
         color: white;
     }
-    #select_pictures img{
+    #select_items .name.selected{
+        background-color: green;
+        color: white;
+    }
+    #select_items td{
+        position: relative;
+    }
+    #select_items img{
         margin: 70px 0 0 0;
+    }
+    #show_selected{
+        display: none;
+        padding: 30px 0;
+        text-align: center;
+        font-size: 50px;
+        cursor: pointer;
+    }
+    #show_selected:hover{
+        background-color: green;
+        color: white;
+    }
+    #copy_selected{
+        display: none;
     }

@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", (e) => {
 
-    arr_list = []
-    arr_det = []
+    arr_list = []                                                               // Array for elements listing data 
+    arr_det = []                                                                // Array for element detail data 
 
-    end_pos = 0
+    end_p = 0                                                                 // End position
     /********** Start loading urls **********/
     var main_url = document.getElementById("main_url")
     start = document.getElementById("start")
     start.onclick = function(){
-        getUrls(main_url.innerText)
+        getList(main_url.innerText)
         this.remove()
     }
     /********** Start loading urls(END) **********/
@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
     /********** Paste URL when document visible(END) **********/
 
 
-    /********** Get urls  **********/
-    function getUrls(url){
+    /********** Get list of elements **********/
+    function getList(main_url){
         var xhr = new XMLHttpRequest()
 
-        xhr.open('GET', url, true)
+        xhr.open('GET', main_url, true)
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
         xhr.onreadystatechange = (e) => {
         if (xhr.readyState !== 4){
@@ -59,10 +59,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
         if (xhr.status === 200){
             var resp = xhr.responseText
-            var start_pos = resp.indexOf(arr_pos[0][0])
-            start_pos = start_pos + arr_pos[0][1]
-            end_pos = resp.indexOf(arr_pos[1][0])
-            getNameAndDetUrl(resp, start_pos)
+            var start_p = resp.indexOf(start_pos[0])                     
+            start_p = start_p + start_pos[1]                           // Set start position
+            end_p = resp.indexOf(end_pos[0])                           // Set end position
+            getElementsListData(resp, start_p)                          // Start getting listing data
 
             //console.log(xhr.responseText);
         }else{
@@ -72,36 +72,36 @@ document.addEventListener("DOMContentLoaded", (e) => {
         };
         xhr.send(null);
     }
-    /********** Get urls(END) **********/
+    /********** Get list of elements(END) **********/
 
-    function getNameAndDetUrl(resp, pos){
-        var name_start_pos = resp.indexOf(arr_pos[2][0], pos)
-        if(name_start_pos == -1 || name_start_pos > end_pos){console.log(arr_list); getPicture(arr_list); return false}
-
-        name_start_pos = name_start_pos + arr_pos[2][1]
-        var name_end_pos = resp.indexOf(arr_pos[2][2], name_start_pos)
-        if(name_end_pos == -1 || name_end_pos > end_pos){console.log(arr_list); getPicture(arr_list); return false}
-
-        var name = resp.substring(name_start_pos, name_end_pos)
+    function getElementsListData(resp, pos){
         
-        var url_start_pos = resp.indexOf(arr_pos[3][0], name_end_pos)
-        if(url_start_pos == -1 || url_start_pos > end_pos){console.log(arr_list); getPicture(arr_list); return false}
+        var data1_start_pos = resp.indexOf(arr_list_pos[0][0], pos)
+        if(data1_start_pos == -1 || data1_start_pos > end_p){console.log(arr_list); getDetailData(arr_list); return false}
 
-        url_start_pos = url_start_pos + arr_pos[3][1]
-        var url_end_pos = resp.indexOf(arr_pos[3][2], url_start_pos)
-        if(url_end_pos == -1 || url_end_pos > end_pos){console.log(arr_list); getPicture(arr_list); return false}
+        data1_start_pos = data1_start_pos + arr_list_pos[0][1]
+        var data1_end_pos = resp.indexOf(arr_list_pos[0][2], data1_start_pos)
+        if(data1_end_pos == -1 || data1_end_pos > end_p){console.log(arr_list); getDetailData(arr_list); return false}
 
-        var url = resp.substring(url_start_pos, url_end_pos)
+        var data1 = resp.substring(data1_start_pos, data1_end_pos)
+        
+        var data2_start_pos = resp.indexOf(arr_list_pos[1][0], data1_end_pos)
+        if(data2_start_pos == -1 || data2_start_pos > end_p){console.log(arr_list); getDetailData(arr_list); return false}
 
-        arr_list.push([name, url])
+        data2_start_pos = data2_start_pos + arr_list_pos[1][1]
+        var data2_end_pos = resp.indexOf(arr_list_pos[1][2], data2_start_pos)
+        if(data2_end_pos == -1 || data2_end_pos > end_p){console.log(arr_list); getDetailData(arr_list); return false}
 
-        getNameAndDetUrl(resp, url_end_pos)
+        var data2 = resp.substring(data2_start_pos, data2_end_pos)
+
+        arr_list.push([data1, data2])
+
+        getElementsListData(resp, data2_end_pos)
 
     }
-    //count = 3
-    /********** Get picture  **********/
-    function getPicture(arr){
-
+    //count = 3                                                                 // Test
+    /********** Get detail data  **********/
+    function getDetailData(arr){
         var xhr = new XMLHttpRequest()
         xhr.open('GET', arr[0][1], true)
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
@@ -114,27 +114,27 @@ document.addEventListener("DOMContentLoaded", (e) => {
         if (xhr.status === 200){
 
             var resp = xhr.responseText
-            var pic_start_pos = resp.indexOf(arr_det_pos[0][0])
+            var det_start_pos = resp.indexOf(arr_det_pos[0][0])
 
-            pic_start_pos = pic_start_pos + arr_det_pos[0][1]
+            det_start_pos = det_start_pos + arr_det_pos[0][1]
 
-            var pic_end_pos = resp.indexOf(arr_det_pos[0][2], pic_start_pos)
-            pic_end_pos = pic_end_pos + arr_det_pos[0][3]
+            var det_end_pos = resp.indexOf(arr_det_pos[0][2], det_start_pos)
+            det_end_pos = det_end_pos + arr_det_pos[0][3]
 
-            var picture = resp.substring(pic_start_pos, pic_end_pos)
+            var detail_data = resp.substring(det_start_pos, det_end_pos)
 
-            console.log(picture)
-            arr_det.push([picture, arr[0][0]])
+            console.log(detail_data)
+            arr_det.push([detail_data, arr[0][0]])
             arr.shift();
-
-            //count = count -  1
+            console.log("Elements left: "+arr.length)
+            //count = count -  1                                                // Test
             if(
                 arr.length > 0 
-                //&& count > 0
+                //&& count > 0                                                  // Test
             ){
-                getPicture(arr)
+                getDetailData(arr)
             }else{
-                console.log("All pictures loaded")
+                //console.log("All data loaded")
                 main_url.innerHTML = ""
                 showPictures(arr_det)
             }
@@ -145,9 +145,12 @@ document.addEventListener("DOMContentLoaded", (e) => {
         };
         xhr.send(null);
     }
-    /********** Get picture(END) **********/
+    /********** Get detail data(END) **********/
+
 
     selected_pictures = []
+    select_items = document.getElementById("select_items")
+    show_selected = document.getElementById("show_selected")
     /********** Save pictures  **********/
     function showPictures(arr){
         select_pictures = document.getElementById("select_pictures")
@@ -165,22 +168,37 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     this.classList.remove("selected")
                     var index = selected_pictures.indexOf(this.innerText);
                     if (index !== -1) {
-                        selected_pictures.splice(index, 1);
-                        console.log(selected_pictures)
+                        selected_pictures.splice(index, 1)
+                        if(selected_pictures.length == 0) show_selected.style.display = "none"
+                        //console.log(selected_pictures)
                     }
                 }
                 else{
                     this.classList.add("selected")
                     selected_pictures.push(this.innerText)
-                    console.log(selected_pictures)
+                    show_selected.style.display = "block"
+                    //console.log(selected_pictures)
                 }
-            };
+            }
 
             td.append(pic)
             td.append(name)
             tr.append(td)
-            select_pictures.append(tr)
+            select_items.append(tr)
         })
     }
     /********** Save pictures(END) **********/
+
+    /********** Show selected **********/
+    copy_selected = document.getElementById("copy_selected")
+    show_selected.onclick = function(){
+        copy_selected.style.display = "block"
+        copy_selected.innerText = ''
+        selected_pictures.forEach(element =>{
+            copy_selected.value += element+","
+        })
+    }
+
+    /********** Show selected(END) **********/
+
 })

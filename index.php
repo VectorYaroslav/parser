@@ -5,6 +5,8 @@
 
 <div id="main_url"> </div>
 <div id="start">Start!</div>
-<table id="select_pictures">
+<table id="select_items">
 
 </table>
+<div id="show_selected">SHOW SELECTED</div>
+<textarea id="copy_selected"></textarea>
